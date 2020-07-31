@@ -55,5 +55,6 @@
 	<false/>
   <key>UIStatusBarStyle</key>
   <string>UIStatusBarStyleDefault</string>
+	<string>Feather.ttf</string>
 </dict>
 </plist>
