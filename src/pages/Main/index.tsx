@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import api from '../../services/api';
@@ -28,7 +29,8 @@ interface IFeedsResponse {
 }
 
 const Main: React.FC = () => {
-  const [feeds, setFeeds] = useState<IFeedsResponse[]>([])
+  const [feeds, setFeeds] = useState<IFeedsResponse[]>([]);
+  const { navigate } = useNavigation();
   
   async function loadFeeds() {
     const response = await api.get('feeds');
@@ -39,6 +41,10 @@ const Main: React.FC = () => {
   useEffect(() => {   
     loadFeeds();
   }, []);
+
+  const navigateToPost = useCallback(() => {
+    navigate('Post');
+  }, [navigate]);
 
   async function handleLikeFeed(id = 0) {
     await api.post(`reaction`, {
@@ -66,7 +72,7 @@ const Main: React.FC = () => {
           keyExtractor={feed => String(feed.id)}
           ListHeaderComponent={(
             <Styled.Header>
-              <Styled.Button>
+              <Styled.Button onPress={() => navigateToPost()}>
                 <Styled.ButtonText>Novo post</Styled.ButtonText>
               </Styled.Button>  
             </Styled.Header>
